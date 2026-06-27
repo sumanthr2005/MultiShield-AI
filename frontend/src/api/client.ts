@@ -1,24 +1,5 @@
 import axios from 'axios'
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000',
-  timeout: 30000,
-})
-
-export type WorkflowRequest = {
-  text?: string
-  image_reference?: string
-  metadata?: Record<string, any>
-}
-
-export async function analyzeWorkflow(payload: WorkflowRequest) {
-  const res = await api.post('/v1/workflow/analyze', payload)
-  return res.data
-}
-
-export default api
-import axios from 'axios'
-
 import type { AnalysisRequest, ExplainabilityResponse, ModerationResponse, WorkflowResponse } from './types'
 
 const api = axios.create({
@@ -36,6 +17,9 @@ export async function runWorkflow(request: AnalysisRequest): Promise<WorkflowRes
   return data
 }
 
+// Alias for backward compatibility
+export const analyzeWorkflow = runWorkflow
+
 export async function getExplainability(analysisResult: unknown): Promise<ExplainabilityResponse> {
   const { data } = await api.post<ExplainabilityResponse>('/v1/explainability/explain', {
     analysis_result: analysisResult,
@@ -49,5 +33,8 @@ export async function getModeration(analysisResult: unknown): Promise<Moderation
   })
   return data
 }
+
+// Export types
+export type { AnalysisRequest, ExplainabilityResponse, ModerationResponse, WorkflowResponse }
 
 export { api }

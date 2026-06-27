@@ -56,7 +56,7 @@ export function DashboardPage() {
               <Stack direction="row" spacing={1} alignItems="center">
                 <RiskChip risk={item.result.fusion_result?.risk_score ?? 0} />
                 <Typography variant="body2" color="text.secondary">
-                  {(item.result.fusion_result?.confidence_score ?? item.result.confidence_score).toFixed(2)} confidence
+                  {(item.result.fusion_result?.confidence ?? item.result.confidence_score).toFixed(2)} confidence
                 </Typography>
               </Stack>
             </Stack>
